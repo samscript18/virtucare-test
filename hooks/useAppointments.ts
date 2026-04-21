@@ -2,14 +2,7 @@
 
 import { useMemo, useSyncExternalStore } from "react";
 import { doctorsById } from "@/data/doctors";
-import {
-	getAppointmentsServerSnapshot,
-	getAppointmentsSnapshot,
-	isDoubleBooked,
-	persistAppointments,
-	sortAppointments,
-	subscribeAppointments,
-} from "@/lib/appointments";
+import { getAppointmentsServerSnapshot, getAppointmentsSnapshot, isDoubleBooked, persistAppointments, sortAppointments, subscribeAppointments } from "@/lib/appointments";
 import { Appointment, AppointmentInput } from "@/types/appointments";
 
 interface BookingResult {
