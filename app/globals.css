@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  --ink-900: #082130;
+  --ink-700: #1f4f63;
+  --paper-100: #fffefb;
+  --paper-200: #f6f3eb;
+  --mint-500: #2f7f78;
+  --mint-600: #256861;
+  --coral-500: #d96f5e;
+  --line: #d4d9cf;
+  --text-main: #102a38;
+  --text-soft: #4f6572;
+}
+
+@theme inline {
+  --font-sans: var(--font-manrope);
+  --font-serif: var(--font-fraunces);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 8% 6%, rgba(217, 111, 94, 0.19), transparent 40%),
+    radial-gradient(circle at 85% 18%, rgba(47, 127, 120, 0.2), transparent 42%),
+    linear-gradient(165deg, var(--paper-100) 0%, var(--paper-200) 100%);
+  background-attachment: fixed;
+}
+
+.app-bg {
+  position: relative;
+}
+
+.app-bg::before,
+.app-bg::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  border-radius: 999px;
+  filter: blur(70px);
+  z-index: -1;
+}
+
+.app-bg::before {
+  width: 280px;
+  height: 280px;
+  background: rgba(217, 111, 94, 0.25);
+  top: -40px;
+  left: -60px;
+}
+
+.app-bg::after {
+  width: 300px;
+  height: 300px;
+  background: rgba(47, 127, 120, 0.2);
+  bottom: -60px;
+  right: -90px;
+}
+
+.panel {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 14px 32px rgba(16, 42, 56, 0.08);
+  border-radius: 1rem;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.62rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  background: var(--mint-500);
+  color: #fff;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.btn-primary:hover {
+  background: var(--mint-600);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.56rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink-700);
+  transition: background 180ms ease;
+}
+
+.btn-ghost:hover {
+  background: #f1f6f5;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #cfd7cb;
+  border-radius: 0.75rem;
+  padding: 0.62rem 0.75rem;
+  background: #fff;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+.field:focus {
+  outline: 2px solid rgba(47, 127, 120, 0.25);
+  outline-offset: 0;
+}
+
+.page-enter {
+  animation: page-enter 350ms ease-out;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
