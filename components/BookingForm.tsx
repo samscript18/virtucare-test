@@ -20,11 +20,11 @@ export function BookingForm({ doctors }: BookingFormProps) {
 	const selectedFromQuery = searchParams.get("doctor") ?? "";
 	const { bookAppointment, takenSlots } = useAppointments();
 
-	const [doctorId, setDoctorId] = useState(selectedFromQuery);
-	const [date, setDate] = useState("");
-	const [time, setTime] = useState("");
-	const [reason, setReason] = useState("");
-	const [error, setError] = useState("");
+	const [doctorId, setDoctorId] = useState<string>(selectedFromQuery);
+	const [date, setDate] = useState<string>("");
+	const [time, setTime] = useState<string>("");
+	const [reason, setReason] = useState<string>("");
+	const [error, setError] = useState<string>("");
 
 	const doctor = doctors.find((entry) => entry.id === doctorId);
 

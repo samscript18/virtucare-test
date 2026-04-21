@@ -1,6 +1,6 @@
 import { DoctorCard } from "@/components/DoctorCard";
 import { Stagger } from "@/components/common/Stagger";
-import { doctors } from "@/data/doctors";
+import { doctors } from "@/data/data";
 
 export default function DoctorsPage() {
 	return (

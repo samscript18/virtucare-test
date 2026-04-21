@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { GlassPanel } from "@/components/common/GlassPanel";
-import { doctors } from "@/data/doctors";
+import { doctors } from "@/data/data";
 
 export default function Home() {
 	return (

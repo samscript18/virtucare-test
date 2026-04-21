@@ -1,4 +1,12 @@
 import { Doctor } from "@/types/appointments";
+import { NavItem } from "@/types/nav";
+
+export const navItems: NavItem[] = [
+	{ href: "/", label: "Home", mobileLabel: "Home", icon: "home" },
+	{ href: "/doctors", label: "Doctors", mobileLabel: "Doctors", icon: "doctors" },
+	{ href: "/book", label: "Book", mobileLabel: "Book", icon: "book" },
+	{ href: "/appointments", label: "Appointments", mobileLabel: "Appts", icon: "appointments" },
+];
 
 export const doctors: Doctor[] = [
 	{

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
-import { doctorsById } from "@/data/doctors";
+import { doctorsById } from "@/data/data";
 import { getAppointmentsServerSnapshot, getAppointmentsSnapshot, isDoubleBooked, persistAppointments, sortAppointments, subscribeAppointments } from "@/lib/appointments";
 import { Appointment, AppointmentInput } from "@/types/appointments";
 
