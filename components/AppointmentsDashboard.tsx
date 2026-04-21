@@ -35,18 +35,24 @@ export function AppointmentsDashboard() {
 				<ul className="grid gap-3">
 					{appointments.map((appointment, index) => (
 						<li key={appointment.id} className="glass-panel page-enter grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center" style={{ animationDelay: `${Math.min(index * 90, 540)}ms` }}>
-								<div>
-									<p className="font-serif text-xl text-[#082130]">{appointment.doctorName}</p>
-									<p className="text-sm font-semibold text-[#1f4f63]">{appointment.specialty}</p>
-									<p className="mt-1 text-sm text-[#3b515f]">
-										{appointment.date} at {appointment.time}
+							<div>
+								<p className="font-serif text-xl text-[#082130]">{appointment.doctorName}</p>
+								<p className="text-sm font-semibold text-[#1f4f63]">{appointment.specialty}</p>
+								<p className="mt-1 text-sm text-[#3b515f]">
+									{appointment.date} at {appointment.time}
+								</p>
+								<div className="reason-block mt-3 rounded-xl px-3 py-3">
+									<p className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#2f7f78]">
+										<span className="inline-block h-2 w-2 rounded-full bg-[#2f7f78]" aria-hidden="true" />
+										Reason for visit
 									</p>
-									<p className="mt-2 rounded-lg bg-[#f4f7f6] px-3 py-2 text-sm text-[#324a58]">Reason: {appointment.reason}</p>
+									<p className="text-sm leading-relaxed text-[#2b4958]">{appointment.reason}</p>
 								</div>
-								<button type="button" onClick={() => cancelAppointment(appointment.id)} className="btn-ghost border-[#e2c2bd] bg-[#fff6f4] text-[#a2473a] hover:bg-[#ffecea]">
-									Cancel
-								</button>
-							</li>
+							</div>
+							<button type="button" onClick={() => cancelAppointment(appointment.id)} className="btn-ghost border-[#e2c2bd] bg-[#fff6f4] text-[#a2473a] hover:bg-[#ffecea]">
+								Cancel
+							</button>
+						</li>
 					))}
 				</ul>
 			)}

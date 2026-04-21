@@ -38,7 +38,7 @@ export default function RootLayout({
 			<body className={`${manrope.variable} ${fraunces.variable} app-bg font-sans antialiased`}>
 				<div className="min-h-screen">
 					<AppNav />
-					<main className="mx-auto w-full max-w-6xl px-4 pb-12 pt-6 sm:px-6 lg:px-8">{children}</main>
+					<main className="mx-auto w-full max-w-6xl px-4 pb-28 pt-6 sm:px-6 md:pb-12 lg:px-8">{children}</main>
 				</div>
 			</body>
 		</html>
