@@ -243,7 +243,6 @@ body {
   0% {
     transform: translateX(-120%);
   }
-
   40%,
   100% {
     transform: translateX(130%);
@@ -251,24 +250,20 @@ body {
 }
 
 @keyframes float-orb {
-
   0%,
   100% {
     transform: translateY(0) scale(1);
   }
-
   50% {
     transform: translateY(-8px) scale(1.05);
   }
 }
 
 @keyframes drift-gradient {
-
   0%,
   100% {
     background-position: 0% 50%;
   }
-
   50% {
     background-position: 100% 50%;
   }
@@ -278,14 +273,12 @@ body {
   0% {
     transform: translateX(-100%);
   }
-
   100% {
     transform: translateX(100%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .page-enter,
   .hero-orb,
   .wave-divider,
