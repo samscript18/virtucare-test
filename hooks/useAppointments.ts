@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { doctorsById } from "@/data/doctors";
-import { APPOINTMENTS_UPDATED_EVENT, isDoubleBooked, persistAppointments, readAppointments } from "@/lib/appointments";
+import { APPOINTMENTS_UPDATED_EVENT, isDoubleBooked, persistAppointments, readAppointments, sortAppointments } from "@/lib/appointments";
 import { Appointment, AppointmentInput } from "@/types/appointments";
 
 interface BookingResult {
@@ -11,20 +11,21 @@ interface BookingResult {
 }
 
 export function useAppointments() {
-	const appointments = useSyncExternalStore(
-		(onStoreChange) => {
-			const handler = () => onStoreChange();
-			window.addEventListener("storage", handler);
-			window.addEventListener(APPOINTMENTS_UPDATED_EVENT, handler);
+	const [appointments, setAppointments] = useState<Appointment[]>(() => readAppointments());
 
-			return () => {
-				window.removeEventListener("storage", handler);
-				window.removeEventListener(APPOINTMENTS_UPDATED_EVENT, handler);
-			};
-		},
-		() => readAppointments(),
-		() => [],
-	);
+	useEffect(() => {
+		const syncFromStorage = () => {
+			setAppointments(readAppointments());
+		};
+
+		window.addEventListener("storage", syncFromStorage);
+		window.addEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
+
+		return () => {
+			window.removeEventListener("storage", syncFromStorage);
+			window.removeEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
+		};
+	}, []);
 
 	const bookAppointment = (input: AppointmentInput): BookingResult => {
 		const doctor = doctorsById[input.doctorId];
@@ -39,7 +40,7 @@ export function useAppointments() {
 			};
 		}
 
-		const next: Appointment[] = [
+		const next: Appointment[] = sortAppointments([
 			...appointments,
 			{
 				id: crypto.randomUUID(),
@@ -51,14 +52,16 @@ export function useAppointments() {
 				reason: input.reason.trim(),
 				createdAt: new Date().toISOString(),
 			},
-		];
+		]);
 
+		setAppointments(next);
 		persistAppointments(next);
 		return { success: true };
 	};
 
 	const cancelAppointment = (appointmentId: string) => {
 		const next = appointments.filter((appointment) => appointment.id !== appointmentId);
+		setAppointments(next);
 		persistAppointments(next);
 	};
 

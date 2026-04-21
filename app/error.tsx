@@ -11,9 +11,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
 	return (
 		<div className="mx-auto mt-16 max-w-xl px-4">
 			<div className="panel p-6 text-center sm:p-8">
-				<p className="mx-auto mb-3 inline-flex rounded-full bg-[#fde9e6] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#a2473a]">
-					Error
-				</p>
+				<p className="mx-auto mb-3 inline-flex rounded-full bg-[#fde9e6] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#a2473a]">Error</p>
 				<h2 className="font-serif text-3xl text-[#082130]">Something went wrong</h2>
 				<p className="mt-2 text-sm text-[#4f6572]">{error.message || "An unexpected error occurred. Please try again."}</p>
 				<div className="mt-6 flex justify-center gap-3">

@@ -11,13 +11,7 @@ export function sortAppointments(appointments: Appointment[]): Appointment[] {
 	});
 }
 
-export function isDoubleBooked(
-	appointments: Appointment[],
-	doctorId: string,
-	date: string,
-	time: string,
-	excludeAppointmentId?: string,
-): boolean {
+export function isDoubleBooked(appointments: Appointment[], doctorId: string, date: string, time: string, excludeAppointmentId?: string): boolean {
 	return appointments.some((appointment) => {
 		if (excludeAppointmentId && appointment.id === excludeAppointmentId) {
 			return false;
