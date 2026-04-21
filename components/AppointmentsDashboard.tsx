@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { GlassPanel } from "@/components/common/GlassPanel";
-import { Stagger } from "@/components/common/Stagger";
 import { useAppointments } from "@/hooks/useAppointments";
 
 export function AppointmentsDashboard() {
@@ -35,21 +34,19 @@ export function AppointmentsDashboard() {
 			) : (
 				<ul className="grid gap-3">
 					{appointments.map((appointment, index) => (
-						<Stagger key={appointment.id} index={index}>
-							<li className="glass-panel grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
-							<div>
-								<p className="font-serif text-xl text-[#082130]">{appointment.doctorName}</p>
-								<p className="text-sm font-semibold text-[#1f4f63]">{appointment.specialty}</p>
-								<p className="mt-1 text-sm text-[#3b515f]">
-									{appointment.date} at {appointment.time}
-								</p>
-								<p className="mt-2 rounded-lg bg-[#f4f7f6] px-3 py-2 text-sm text-[#324a58]">Reason: {appointment.reason}</p>
-							</div>
-							<button type="button" onClick={() => cancelAppointment(appointment.id)} className="btn-ghost border-[#e2c2bd] bg-[#fff6f4] text-[#a2473a] hover:bg-[#ffecea]">
-								Cancel
-							</button>
+						<li key={appointment.id} className="glass-panel page-enter grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center" style={{ animationDelay: `${Math.min(index * 90, 540)}ms` }}>
+								<div>
+									<p className="font-serif text-xl text-[#082130]">{appointment.doctorName}</p>
+									<p className="text-sm font-semibold text-[#1f4f63]">{appointment.specialty}</p>
+									<p className="mt-1 text-sm text-[#3b515f]">
+										{appointment.date} at {appointment.time}
+									</p>
+									<p className="mt-2 rounded-lg bg-[#f4f7f6] px-3 py-2 text-sm text-[#324a58]">Reason: {appointment.reason}</p>
+								</div>
+								<button type="button" onClick={() => cancelAppointment(appointment.id)} className="btn-ghost border-[#e2c2bd] bg-[#fff6f4] text-[#a2473a] hover:bg-[#ffecea]">
+									Cancel
+								</button>
 							</li>
-						</Stagger>
 					))}
 				</ul>
 			)}

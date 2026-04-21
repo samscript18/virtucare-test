@@ -2,6 +2,9 @@ import { Appointment } from "@/types/appointments";
 
 export const APPOINTMENTS_STORAGE_KEY = "virtucare:appointments";
 export const APPOINTMENTS_UPDATED_EVENT = "virtucare:appointments-updated";
+const EMPTY_APPOINTMENTS: Appointment[] = [];
+
+let appointmentsCache: Appointment[] | null = null;
 
 export function sortAppointments(appointments: Appointment[]): Appointment[] {
 	return [...appointments].sort((a, b) => {
@@ -23,20 +26,55 @@ export function isDoubleBooked(appointments: Appointment[], doctorId: string, da
 
 export function readAppointments(): Appointment[] {
 	if (typeof window === "undefined") {
-		return [];
+		return EMPTY_APPOINTMENTS;
 	}
 
 	const raw = window.localStorage.getItem(APPOINTMENTS_STORAGE_KEY);
 	if (!raw) {
-		return [];
+		return EMPTY_APPOINTMENTS;
 	}
 
 	try {
 		const parsed = JSON.parse(raw) as Appointment[];
-		return Array.isArray(parsed) ? sortAppointments(parsed) : [];
+		return Array.isArray(parsed) ? sortAppointments(parsed) : EMPTY_APPOINTMENTS;
 	} catch {
-		return [];
+		return EMPTY_APPOINTMENTS;
 	}
+}
+
+export function getAppointmentsServerSnapshot(): Appointment[] {
+	return EMPTY_APPOINTMENTS;
+}
+
+export function getAppointmentsSnapshot(): Appointment[] {
+	if (typeof window === "undefined") {
+		return EMPTY_APPOINTMENTS;
+	}
+
+	if (appointmentsCache === null) {
+		appointmentsCache = readAppointments();
+	}
+
+	return appointmentsCache;
+}
+
+export function subscribeAppointments(onStoreChange: () => void): () => void {
+	if (typeof window === "undefined") {
+		return () => {};
+	}
+
+	const syncFromStorage = () => {
+		appointmentsCache = readAppointments();
+		onStoreChange();
+	};
+
+	window.addEventListener("storage", syncFromStorage);
+	window.addEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
+
+	return () => {
+		window.removeEventListener("storage", syncFromStorage);
+		window.removeEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
+	};
 }
 
 export function persistAppointments(appointments: Appointment[]): void {
@@ -44,6 +82,8 @@ export function persistAppointments(appointments: Appointment[]): void {
 		return;
 	}
 
-	window.localStorage.setItem(APPOINTMENTS_STORAGE_KEY, JSON.stringify(sortAppointments(appointments)));
+	const sorted = sortAppointments(appointments);
+	appointmentsCache = sorted;
+	window.localStorage.setItem(APPOINTMENTS_STORAGE_KEY, JSON.stringify(sorted));
 	window.dispatchEvent(new Event(APPOINTMENTS_UPDATED_EVENT));
 }

@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { doctorsById } from "@/data/doctors";
-import { APPOINTMENTS_UPDATED_EVENT, isDoubleBooked, persistAppointments, readAppointments, sortAppointments } from "@/lib/appointments";
+import {
+	getAppointmentsServerSnapshot,
+	getAppointmentsSnapshot,
+	isDoubleBooked,
+	persistAppointments,
+	sortAppointments,
+	subscribeAppointments,
+} from "@/lib/appointments";
 import { Appointment, AppointmentInput } from "@/types/appointments";
 
 interface BookingResult {
@@ -11,21 +18,7 @@ interface BookingResult {
 }
 
 export function useAppointments() {
-	const [appointments, setAppointments] = useState<Appointment[]>(() => readAppointments());
-
-	useEffect(() => {
-		const syncFromStorage = () => {
-			setAppointments(readAppointments());
-		};
-
-		window.addEventListener("storage", syncFromStorage);
-		window.addEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
-
-		return () => {
-			window.removeEventListener("storage", syncFromStorage);
-			window.removeEventListener(APPOINTMENTS_UPDATED_EVENT, syncFromStorage);
-		};
-	}, []);
+	const appointments = useSyncExternalStore(subscribeAppointments, getAppointmentsSnapshot, getAppointmentsServerSnapshot);
 
 	const bookAppointment = (input: AppointmentInput): BookingResult => {
 		const doctor = doctorsById[input.doctorId];
@@ -54,14 +47,12 @@ export function useAppointments() {
 			},
 		]);
 
-		setAppointments(next);
 		persistAppointments(next);
 		return { success: true };
 	};
 
 	const cancelAppointment = (appointmentId: string) => {
 		const next = appointments.filter((appointment) => appointment.id !== appointmentId);
-		setAppointments(next);
 		persistAppointments(next);
 	};
 
